@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Notifications\UserNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -76,7 +77,7 @@ class ApiController extends Controller
         if ($request->isMethod('post')) {
             $user_id = $request->user_id;
             $api_secret_key = $request->api_secret_key;
-            // login auth check
+            // login auth check 
             if ($this->login_auth_check($user_id, $api_secret_key)) {
                 $query = Post::select('*');
                 // if have request parameter search
@@ -106,6 +107,57 @@ class ApiController extends Controller
                 'posts' => []
             ];
         }
+        return response()->json($server_response);
+    }
+    // send notification
+    public function sendNotification(Request $request)
+    {
+        $server_response = [
+            "status" => false,
+            "message" => "Failed to send notification",
+        ];
+
+        if ($request->isMethod('post')) {
+            $user_id = $request->user_id;
+            $api_secret_key = $request->api_secret_key;
+            if ($this->login_auth_check($user_id, $api_secret_key)) {
+                $user = User::find(1);
+                if ($user) {
+                    $details = [
+                        'body' => "Hello From 6amTech",
+                        'actionText' => "Congratulations",
+                    ];
+                  
+                    try {
+                        $user->notify(new UserNotification($details));
+
+                        $server_response = [
+                            "status" => true,
+                            "message" => "Notification sent successfully",
+                        ];
+                    } catch (\Exception $e) {
+                        $server_response = [
+                            "status" => false,
+                            "message" => "Notification failed to send: " . $e->getMessage(),
+                        ];
+                    }
+
+                }
+            } else {
+                // login auth check
+                $server_response = [
+                    "status" => false,
+                    "message" => "Auth Check Failed",
+                ];
+            }
+
+        } else {
+            $server_response = [
+                "status" => false,
+                "message" => "Method Not Allowed",
+            ];
+        }
+
         return response()->json($server_response);
     }
 }
