@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller implements HasMiddleware
 {
-    // checking User 
+    // checking User & for protecting controller 
     public static function middleware()
     {
         return [
-            UserAuthenticationMiddleware::class // dummy
+            UserAuthenticationMiddleware::class // dummy 
         ];
     }
     // Creating a Post with Tags
@@ -28,7 +28,7 @@ class PostController extends Controller implements HasMiddleware
             'title' => 'Sample Post',
             'content' => 'This is a sample post content'
         ]);
-
+        // dummy tag 
         $tag = Tag::create(['name' => 'Laravel']);
 
         $post->tags()->attach($tag->id);
@@ -59,6 +59,6 @@ class PostController extends Controller implements HasMiddleware
     {
         $data = []; //for compact all variable together 
         $tag = Tag::where('name', 'Laravel')->first();
-        $data['posts'] = $tag->posts;
+        $data['posts'] = $tag->posts; 
     }
 }
