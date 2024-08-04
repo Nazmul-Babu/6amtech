@@ -14,16 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        
-        // for ($i = 0; $i < 10; $i++) {
-        //     User::create([
-        //         'name' => 'name'.$i,
-        //         'email' => 'test'.$i.'@example.com',
-        //         'password' => bcrypt('123456'),
-        //     ]);
-        // }
+    
+        for ($i = 0; $i < 10; $i++) {
+            User::create([
+                'name' => 'name'.$i,
+                'email' => 'test'.$i.'@example.com',
+                'password' => bcrypt('123456'),
+            ]);
+        }
         for ($i = 0; $i < 10; $i++) {
             if($i%2 ==0){
                 Admin::create([

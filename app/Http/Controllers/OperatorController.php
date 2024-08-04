@@ -54,7 +54,7 @@ class OperatorController extends Controller
                 // Check for duplicate emails                   
             }
             if (count($duplicate_emails) < 1) {
-                $chunks = array_chunk($valid_users, 1); // here we can assign how much value we want to insert together
+                $chunks = array_chunk($valid_users, 1000); // here we can assign how much value we want to insert together
                 foreach ($chunks as $chunk) {
                     User::insert($chunk);
                 }
@@ -65,5 +65,4 @@ class OperatorController extends Controller
         }
         return redirect()->back()->with('error', 'File not found.');
     }
-
 }

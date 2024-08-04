@@ -26,8 +26,9 @@ class ApiController extends Controller
             'email' => '',
             'api_secret_key' => '',
         ];
-        //checking method
-        if ($request->isMethod('post')) {
+        $email = $request->email;
+        $password = $request->password;
+        if ($email && $password) {
             $token_generate = sha1(rand(10000, 100000)); // for avoiding multiple login together by same id 
             $login_status = Auth::attempt([
                 'email' => $request->email,
@@ -51,13 +52,15 @@ class ApiController extends Controller
         } else {
             $server_response = [
                 "status" => false,
-                "message" => "Method Not Allowed",
-                'user_id' => 0,
+                "message" => "email and password required",
+                'user_id' => '',
                 'name' => '',
                 'email' => '',
                 'api_secret_key' => '',
             ];
         }
+
+
         return response()->json($server_response);
     }
     // common function for checking token 
@@ -127,7 +130,6 @@ class ApiController extends Controller
                         'body' => "Hello From 6amTech",
                         'actionText' => "Congratulations",
                     ];
-                  
                     try {
                         $user->notify(new UserNotification($details));
 

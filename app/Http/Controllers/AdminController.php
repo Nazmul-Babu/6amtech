@@ -10,13 +10,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller implements HasMiddleware
 {
-    public static function middleware(){
-       return [
-        BackendAuthCheckMiddleware::class.':admin'
-       ];
+    public static function middleware()
+    {
+        return [
+            BackendAuthCheckMiddleware::class . ':admin'
+        ];
     }
-    
-    public function delete_post($id){
-             dd('delete post');
+
+    public function delete_post($id)
+    {
+        dd('delete post');
     }
 }
