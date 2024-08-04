@@ -21,6 +21,7 @@ class UserController extends Controller implements HasMiddleware
     public function UserWithPosts()
     {
         $data = [];
+        // where('posts.user_id', Auth::id()) this line can prevent injection 
         $data['posts'] = Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
             ->select('users.*', 'posts.id as post_id', 'posts.title', 'posts.content')
             ->where('posts.user_id', Auth::id())

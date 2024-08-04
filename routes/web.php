@@ -33,6 +33,8 @@ Route::prefix('backend')->group(function () {
         // route name prefix 
         Route::name('operator.')->group(function () {
             Route::get('/approve-post/{id}', [OperatorController::class, 'approve_post']);
+             // handle csv file 
+            Route::match(['get','post'],'user-upload',[OperatorController::class,'user_upload'])->name('user.upload');
         });
     });
 });
